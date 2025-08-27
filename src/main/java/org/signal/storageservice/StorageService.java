@@ -58,7 +58,8 @@ public class StorageService extends Application<StorageServiceConfiguration> {
 
   @Override
   public void run(StorageServiceConfiguration config, Environment environment) throws Exception {
-    MetricsUtil.configureRegistries(config, environment);
+    // FLT(uoemai): Remove dependency on Datadog SaaS during development.
+    // MetricsUtil.configureRegistries(config, environment);
 
     UncaughtExceptionHandler.register();
 
@@ -108,9 +109,9 @@ public class StorageService extends Application<StorageServiceConfiguration> {
     environment.jersey().register(new GroupsController(Clock.systemUTC(), groupsManager, serverSecretParams, policySigner, postPolicyGenerator, config.getGroupConfiguration(), externalGroupCredentialGenerator));
     environment.jersey().register(new GroupsV1Controller(Clock.systemUTC(), groupsManager, serverSecretParams, policySigner, postPolicyGenerator, config.getGroupConfiguration(), externalGroupCredentialGenerator));
 
-    new MetricsHttpChannelListener().configure(environment);
-
-    MetricsUtil.registerSystemResourceMetrics(environment);
+    // FLT(uoemai): Remove dependency on Datadog SaaS during development.
+    // new MetricsHttpChannelListener().configure(environment);
+    // MetricsUtil.registerSystemResourceMetrics(environment);
   }
 
   public static void main(String[] argv) throws Exception {
