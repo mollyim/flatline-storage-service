@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
   # Required to sync changes to workflows.
-  workflows: write
+  actions: write
 jobs:
   sync:
     name: Sync
