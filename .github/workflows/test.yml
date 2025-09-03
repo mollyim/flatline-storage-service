@@ -1,8 +1,6 @@
 name: Build and test
 
-# FLT(uoemai): Workflows run in the platform repository.
-# on: [push]
-on: workflow_dispatch
+on: [push]
 
 jobs:
   build:
