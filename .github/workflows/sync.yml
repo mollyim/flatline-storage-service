@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-permissions:
-  contents: write
-  # Required to sync changes to workflows.
-  workflows: write
 jobs:
   sync:
     name: Sync
