@@ -11,6 +11,7 @@ import org.signal.storageservice.util.Pair;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class PostPolicyGenerator {
 
@@ -28,9 +29,14 @@ public class PostPolicyGenerator {
   }
 
   public Pair<String, String> createFor(ZonedDateTime now, String object, int maxSizeInBytes) {
-    String expiration     = now.plusMinutes(30).format(DateTimeFormatter.ISO_INSTANT);
+    // FLT(uoemai): Limit fractional second precision to conform with LocalStack expectations.
+    // String expiration = now.plusMinutes(30).format(DateTimeFormatter.ISO_INSTANT);
+    DateTimeFormatter f = new DateTimeFormatterBuilder()
+        .appendInstant(4)
+        .toFormatter();
+    String expiration     = now.plusMinutes(30).format(f);
     String credentialDate = now.format(CREDENTIAL_DATE);
-    String requestDate    = now.format(AWS_DATE_TIME  );
+    String requestDate    = now.format(AWS_DATE_TIME);
     String credential     = String.format("%s/%s/%s/s3/aws4_request", awsAccessId, credentialDate, region);
 
     String policy = String.format("{ \"expiration\": \"%s\",\n" +
